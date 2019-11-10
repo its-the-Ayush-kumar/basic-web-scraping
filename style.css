@@ -1,0 +1,87 @@
+body{
+    background-color: #34495e;
+}
+
+#container {
+    width: 350px;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    background: white;
+    height: 800px;
+    overflow-y: auto;
+    color: black;
+    border: 18px solid #01a3a4;
+    border-radius: 10px;
+}
+
+#container div {
+    width: 60%;
+    margin: auto;
+}
+
+/* #container .second {
+    width: 60%;
+    margin: auto;
+} */
+
+#container div button {
+    width: 100%;
+    background: white;
+    border: none;
+    height: 30px;
+    margin-top: 2px;
+    cursor: pointer;
+    color: white;
+    border-radius: 10px
+}
+
+#container .second #input {
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
+    padding-left: 5px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    border: 2px solid #b5c5dd;
+    border-radius: 10px;
+}
+
+#container .first #fetch {
+    background-color: #2980b9;
+    border-radius: 10px;
+}
+
+#container .second #find {
+    background-color: #c0392b;
+    border-radius: 10px;
+}
+
+
+#container .first button:focus {
+    outline: 0;
+}
+
+#container .second button:hover {
+    transform: scale(1.05);
+}
+
+#container h1 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+#container label {
+    margin: 0 auto;
+    vertical-align: middle;
+    height: 100%;
+    line-height: 40px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.visual {
+    opacity: 1 !important;
+    border-radius: 10px;
+}

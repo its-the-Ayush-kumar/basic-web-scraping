@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 
 const app = express()
 var port = 3000
-var flag = false
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -19,7 +18,7 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/fetchData', (req, res) => {
+app.post('/fetchData', (req, res) => {
     var details = [];
 
     function convertAtoC(args){
@@ -99,8 +98,11 @@ app.get('/fetchData', (req, res) => {
     });
 })
 
-app.post('/findData', function(req, res) {
-    var search = req.body.search.toLowerCase();
+app.get('/findData', function(req, res) {
+    //console.log('req', req);
+    var flag = false
+    let ans = [];
+    var search = req.query.search.toLowerCase();
 
     const readableStream = fs.createReadStream('output.csv', {encoding: 'utf8'}, (err) => {
       console.log("Failed to create readable stream - ", err);
@@ -108,7 +110,7 @@ app.post('/findData', function(req, res) {
 
     readableStream.on('error', err => {
       console.log("Error in reading the file!");
-      res.staus(300).json({});
+      res.status(300).json({});
     })
 
     readableStream.on('data', chunk => {
@@ -117,16 +119,22 @@ app.post('/findData', function(req, res) {
         data = data.split(',')
         if(data[0].replace(/_/g, ' ').toLowerCase() == search){
           console.log("Film found! ", data[0]);
-          var json = {};
+          let json = {};
           json['name'] = data[0];
           json['people'] = data[1];
           json['year'] = data[2];
           json['rating'] = data[3];
 
-
-          res.status(200).json(json);
+          ans.push(json);
         }
       })
+    })
+
+    readableStream.on('end', () => {
+        if(ans.length == 0) res.status(300).json({
+            msg : "No movies found!"
+        });
+        else res.status(200).json(ans);
     })
 })
 

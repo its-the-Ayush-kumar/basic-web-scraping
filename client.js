@@ -10,36 +10,33 @@ var ob;
 
 async function fetchData(){
     let url = 'http://localhost:3000/fetchData';
-    let response = await fetch(url);
+    let response = await fetch(url, {
+      method: 'POST',
+    });
     console.log(response.json());
 }
 
 async function findData(){
     let film = tb.value.toLowerCase();
-    let url = 'http://localhost:3000/findData';
+    let url = `http://localhost:3000/findData?search=${film}`;
     let obj = {
         search : film
     };
 
-    let response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(obj),
-    });
+    let response = await fetch(url);
 
-    ob = await response.json();
-
-    console.log(ob);
+    resp = await response.json();
+    /*console.log("RESPONSE", response);
+    console.log(ob);*/
 
     disp.innerHTML = '';
 
-    if(ob == {}){
-        var textNode = document.createTextNode('Not Found !');
+    if(response.status === 300){
+        var textNode = document.createTextNode(resp.msg);
         disp.append(textNode);
     }
     else{
+      resp.forEach(ob => {
         var name = 'Name : ' + ob.name.replace(/_/g, ' ');
         var people = 'People involved : ' + ob.people.replace(/_/g, ' ');
         var year = 'Year released : ' + ob.year.replace(/_/g, ' ');
@@ -56,5 +53,7 @@ async function findData(){
 
         textNode = document.createTextNode(rating);
         disp.append(textNode);
+        disp.append(textNode,document.createElement("br"));
+      });
     }
 }
