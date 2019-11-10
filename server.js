@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 
 const app = express()
 var port = 3000
+var flag = false
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -114,13 +115,14 @@ app.post('/findData', function(req, res) {
       chunk = chunk.split('\n');
       chunk.forEach(data => {
         data = data.split(',')
-        if(data[0].toLowerCase() == search){
-          console.log("Film found!");
+        if(data[0].replace(/_/g, ' ').toLowerCase() == search){
+          console.log("Film found! ", data[0]);
           var json = {};
           json['name'] = data[0];
           json['people'] = data[1];
           json['year'] = data[2];
           json['rating'] = data[3];
+
 
           res.status(200).json(json);
         }
